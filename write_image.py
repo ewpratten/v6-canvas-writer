@@ -4,7 +4,7 @@ from typing import List
 import subprocess
 
 DOMAIN_OFFSET = (170, 70-12)
-QR_OFFSET = (0, 200)
+QR_OFFSET = (200, 200)
 
 def make_address(x: int, y: int, r: int, g: int, b: int) -> str:
     return f"2400:8902:e001:233:{x:02x}{y:02x}:{r:02x}:{g:02x}:{b:02x}"
