@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import List
 import subprocess
 
-DOMAIN_OFFSET = (170, 56-12)
+DOMAIN_OFFSET = (170, 70-12)
 QR_OFFSET = (0, 200)
 
 def make_address(x: int, y: int, r: int, g: int, b: int) -> str:
@@ -31,13 +31,11 @@ def ping_address(address: str):
     
 def main():
     
-    # Domain
-    addresses = image_to_addresses(Path(__file__).parent / "image.bmp", *DOMAIN_OFFSET)
-    for address in addresses:
-        ping_address(address)
-        
-    # QR Code
-    addresses = image_to_addresses(Path(__file__).parent / "qr_code.bmp", *QR_OFFSET)
+    addresses = []
+    addresses.extend(image_to_addresses(Path(__file__).parent / "image.bmp", *DOMAIN_OFFSET))
+    addresses.extend(image_to_addresses(Path(__file__).parent / "qr_code.bmp", *QR_OFFSET))
+    
+    # Update the display
     for address in addresses:
         ping_address(address)
                      
