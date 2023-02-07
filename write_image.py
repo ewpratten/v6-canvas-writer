@@ -3,7 +3,8 @@ from pathlib import Path
 from typing import List
 import subprocess
 
-OFFSET = (50, 254-12)
+DOMAIN_OFFSET = (170, 56-12)
+QR_OFFSET = (0, 200)
 
 def make_address(x: int, y: int, r: int, g: int, b: int) -> str:
     return f"2400:8902:e001:233:{x:02x}{y:02x}:{r:02x}:{g:02x}:{b:02x}"
@@ -26,10 +27,17 @@ def image_to_addresses(image_path: Path, x_offset: int, y_offset: int) -> List[s
 
 def ping_address(address: str):
     print(f"Pinging {address}")
-    subprocess.Popen(["ping", "-c", "1", address])
+    subprocess.Popen(["ping", "-c", "5", address])
     
 def main():
-    addresses = image_to_addresses(Path(__file__).parent / "image.bmp", *OFFSET)
+    
+    # Domain
+    addresses = image_to_addresses(Path(__file__).parent / "image.bmp", *DOMAIN_OFFSET)
+    for address in addresses:
+        ping_address(address)
+        
+    # QR Code
+    addresses = image_to_addresses(Path(__file__).parent / "qr_code.bmp", *QR_OFFSET)
     for address in addresses:
         ping_address(address)
                      
